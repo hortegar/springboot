@@ -9,7 +9,7 @@ public class FizzBuzz {
 		if (i == 5)
 			return "Buzz";
 		if (i < 0)
-			throw new IllegalArgumentException("Invalid argument " + i);
+			throw new IllegalArgumentException("Invalid arguments " + i);
 
 		return "FizzBuzz";
 	}
