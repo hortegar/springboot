@@ -1,0 +1,63 @@
+tcs:
+  api:
+    security:
+      user: ${API_USER}
+      password: ${API_PWD}
+      secretkey: ${SECRET_KEY}
+      enable: /api/authenticate, /actuator/**, /v2/api-docs/**, /swagger-ui.html, /webjars/**, /swagger-ui/**, /swagger-resources/**, /configuration/**, /gcp/publishMessage
+
+server:
+  port: 8081
+  error:
+    include-stacktrace: never
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+
+spring:
+  data:
+    cassandra:
+      keyspace-name: cassandrabd
+      //contact-points: localhost
+      //port: 29080
+      //local-datacenter: datacenter1
+      schema-action: create-if-not-exists
+      request:
+        timeout: 10s
+      connection:
+        connect-timeout: 10s
+        init-query-timeout: 10s
+  boot:
+    admin:
+      client:
+       url: http://localhost:8086
+  cloud:
+    gcp:
+      project-id: tcs-developer
+      credentials:
+        location: file:src/main/resources/service-account.json
+      topic: tcs-topic
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    defaults:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+      
+datastax.astra:
+    secure-connect-bundle: secure-connect-datastax.zip
+    client-id: ${CLIENT_ID}
+    client-secret: ${CLIENT_SECRET}
+
+astra.db:
+    id: 2943a262-f8db-4ec5-b362-6038ea02d328
+    region: us-west1
+    keyspace: cassandrabd
+    application.token: AstraCS:ArzdypQdKwsYrBRKYOsffAIM:95e14087290c3d45ee4a8b1c82c8fad35c9c43e52b6c41c7daa094eeb47ce34f
